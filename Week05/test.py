@@ -185,6 +185,44 @@ class TestCovarianceCalculation(unittest.TestCase):
         np.testing.assert_array_almost_equal(result, expected_result, decimal=6, 
                                              err_msg="chol psd calculation did not return expected result.")
     
+    def test_5_1(self):
+        test51 = pd.read_csv("Week05/testfiles/data/test5_1.csv")
+        test51_result = direct_simulation(test51)
+        expected_test51_result = pd.read_csv("Week05/testfiles/data/testout_5.1.csv").to_numpy()
+        test51_is_equal = np.allclose(expected_test51_result, test51_result, atol=1e-2)
+        self.assertTrue(test51_is_equal, 'Test 5.1 failed')
+
+    def test_5_2(self):
+        test52 = pd.read_csv("Week05/testfiles/data/test5_2.csv")
+        test52_result = direct_simulation(test52)
+        expected_test52_result = pd.read_csv("Week05/testfiles/data/testout_5.2.csv").to_numpy()
+        test52_is_equal = np.allclose(expected_test52_result, test52_result, atol=1e-2)
+        self.assertTrue(test52_is_equal, 'Test 5.2 failed')
+    
+    def test_5_3(self):
+        test53 = pd.read_csv("Week05/testfiles/data/test5_3.csv")
+        test53_psd = near_psd(test53)
+        test53_result = direct_simulation(test53_psd)
+
+        expected_test53_result = pd.read_csv("Week05/testfiles/data/testout_5.3.csv")
+        expected_test53_result = expected_test53_result.to_numpy()
+        test53_is_equal = np.allclose(expected_test53_result, test53_result, atol=1e-2)
+        self.assertTrue(test53_is_equal, 'Test 5.3 failed')
+    
+    def test_5_4(self):
+        test54 = pd.read_csv("Week05/testfiles/data/test5_3.csv")
+        test54_psd = near_psd(test54)
+        test54_result = direct_simulation(test54_psd)
+        expected_test54_result = pd.read_csv("Week05/testfiles/data/testout_5.4.csv")
+        expected_test54_result = expected_test54_result.to_numpy()
+        self.assertTrue(True, 'Test 5.4 failed')
+
+    def test_5_5(self):
+        test_data = pd.read_csv("Week05/testfiles/data/test5_2.csv")
+        result = np.cov(pca_simulation(test_data))
+        expected_result = pd.read_csv("Week05/testfiles/data/testout_5.5.csv").to_numpy()
+        self.assertTrue(np.allclose(expected_result, result, atol=1e-2), 'Test 5.5 failed')
+    
     
     # Test 6.1
     def test_calculate_arithmetic_returns(self):
@@ -422,43 +460,7 @@ class TestCovarianceCalculation(unittest.TestCase):
         np.testing.assert_almost_equal(actual_es_diff_from_mean, expected_es_diff_from_mean, decimal=2,
                                     err_msg="Calculated ES Diff from Mean is not almost equal to the expected ES Diff from Mean.")    
 
-    def test_5_1(self):
-        test51 = pd.read_csv("Week05/testfiles/data/test5_1.csv")
-        test51_result = direct_simulation(test51)
-        expected_test51_result = pd.read_csv("Week05/testfiles/data/testout_5.1.csv").to_numpy()
-        test51_is_equal = np.allclose(expected_test51_result, test51_result, atol=1e-2)
-        self.assertTrue(test51_is_equal, 'Test 5.1 failed')
-
-    def test_5_2(self):
-        test52 = pd.read_csv("Week05/testfiles/data/test5_2.csv")
-        test52_result = direct_simulation(test52)
-        expected_test52_result = pd.read_csv("Week05/testfiles/data/testout_5.2.csv").to_numpy()
-        test52_is_equal = np.allclose(expected_test52_result, test52_result, atol=1e-2)
-        self.assertTrue(test52_is_equal, 'Test 5.2 failed')
     
-    def test_5_3(self):
-        test53 = pd.read_csv("Week05/testfiles/data/test5_3.csv")
-        test53_psd = near_psd(test53)
-        test53_result = direct_simulation(test53_psd)
-
-        expected_test53_result = pd.read_csv("Week05/testfiles/data/testout_5.3.csv")
-        expected_test53_result = expected_test53_result.to_numpy()
-        test53_is_equal = np.allclose(expected_test53_result, test53_result, atol=1e-2)
-        self.assertTrue(test53_is_equal, 'Test 5.3 failed')
-    
-    def test_5_4(self):
-        test54 = pd.read_csv("Week05/testfiles/data/test5_3.csv")
-        test54_psd = near_psd(test54)
-        test54_result = direct_simulation(test54_psd)
-        expected_test54_result = pd.read_csv("Week05/testfiles/data/testout_5.4.csv")
-        expected_test54_result = expected_test54_result.to_numpy()
-        self.assertTrue(True, 'Test 5.4 failed')
-
-    def test_5_5(self):
-        test_data = pd.read_csv("Week05/testfiles/data/test5_2.csv")
-        result = np.cov(pca_simulation(test_data))
-        expected_result = pd.read_csv("Week05/testfiles/data/testout_5.5.csv").to_numpy()
-        self.assertTrue(np.allclose(expected_result, result, atol=1e-2), 'Test 5.5 failed')
 
     def test_9_1(self):
         portfolio = pd.read_csv("Week05/testfiles/data/test9_1_portfolio.csv")
